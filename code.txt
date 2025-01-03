@@ -1,0 +1,179 @@
+import mysql.connector as sql
+
+# Establishing connection to the MySQL database
+mydb = sql.connect(host='localhost', database='bookshop', user='root', password='admin')
+if mydb.is_connected():
+    c = mydb.cursor()
+    print('Connection established')
+
+# Book-related functions
+def book():
+    while True:
+        print('*' * 95)
+        print('\t\t\t\t\tBOOK DETAILS')
+        print('*' * 95)
+        print('''
+        1 for adding book
+        2 for displaying all book records
+        3 for displaying one record
+        4 for deleting all book records
+        5 for deleting one record
+        6 for modifying details of book
+        7 to back to main menu''')
+        
+        choice = int(input('Enter the key for the following functions: '))
+        
+        if choice == 1:
+            add_book()
+        elif choice == 2:
+            display_all_books()
+        elif choice == 3:
+            display_book()
+        elif choice == 4:
+            delete_all_books()
+        elif choice == 5:
+            delete_book()
+        elif choice == 6:
+            update_book()
+        elif choice == 7:
+            main()
+        else:
+            print('Invalid choice: Try again')
+
+# Add book details
+def add_book():
+    try:
+        ans = 'yes'
+        while ans.lower() == 'yes':
+            print('Enter book information....')
+            b_id = int(input('Enter book ID: '))
+            bname = input('Enter book name: ')
+            aname = input('Enter author name: ')
+            year = input('Enter year of publication: ')
+            price = float(input('Enter price: '))
+            itstype = input('Enter book type: ')
+            quantity = int(input('Enter quantity: '))
+            
+            query = """INSERT INTO books (b_id, book_name, author_name, year, price, type, quantity)
+                       VALUES (%s, %s, %s, %s, %s, %s, %s)"""
+            c.execute(query, (b_id, bname, aname, year, price, itstype, quantity))
+            mydb.commit()
+            print('Record added')
+            ans = input('Enter yes to add more records: ')
+    except Exception as e:
+        print('Something went wrong')
+        print(e)
+
+# Display all book details
+def display_all_books():
+    try:
+        c.execute('SELECT * FROM books')
+        details = c.fetchall()
+        for i in details:
+            print(i)
+    except Exception as e:
+        print('Something went wrong')
+        print(e)
+
+# Display selected book details
+def display_book():
+    try:
+        bname = input('Enter name of the book you want to display: ')
+        c.execute('SELECT * FROM books WHERE book_name = %s', (bname,))
+        x = c.fetchone()
+        if x:
+            print(x)
+        else:
+            print('No record found for the book')
+    except Exception as e:
+        print('Something went wrong')
+        print(e)
+
+# Delete selected book
+def delete_book():
+    try:
+        r = input('Enter book name whose record you want to delete: ')
+        c.execute('DELETE FROM books WHERE book_name = %s', (r,))
+        mydb.commit()
+        print('Record deleted successfully')
+    except Exception as e:
+        print('Something went wrong')
+        print(e)
+
+# Delete all book records
+def delete_all_books():
+    try:
+        r = input('Do you want to delete all records? (yes/no): ')
+        if r.lower() == 'yes':
+            c.execute('DELETE FROM books')
+            mydb.commit()
+            print('All records deleted successfully')
+    except Exception as e:
+        print('Something went wrong')
+        print(e)
+
+# Update book details
+def update_book():
+    try:
+        r = input('Enter book name whose details you want to update: ')
+        n = int(input('Enter 1 to update quantity or 2 to update cost: '))
+        if n == 1:
+            m = int(input('Enter new quantity: '))
+            c.execute('UPDATE books SET quantity = %s WHERE book_name = %s', (m, r))
+        elif n == 2:
+            b = float(input('Enter new cost: '))
+            c.execute('UPDATE books SET price = %s WHERE book_name = %s', (b, r))
+        else:
+            print('Invalid choice: Try again')
+        mydb.commit()
+        print('Record updated successfully')
+    except Exception as e:
+        print('Something went wrong')
+        print(e)
+
+# Customer-related functions (similar pattern to above)
+def cust():
+    while True:
+        print('*' * 95)
+        print('\t\t\t\t\tCUSTOMER DETAILS')
+        print('*' * 95)
+        print('''
+        1 for adding customer details
+        2 for displaying all customer records
+        3 for displaying one customer record
+        4 for deleting all customer records
+        5 for deleting one customer record
+        6 for modifying customer details
+        7 to back to main menu''')
+        
+        choice = int(input('Enter the key for the following functions: '))
+        
+        if choice == 1:
+            add_customer()
+        elif choice == 2:
+            display_all_customers()
+        elif choice == 3:
+            display_customer()
+        elif choice == 4:
+            delete_all_customers()
+        elif choice == 5:
+            delete_customer()
+        elif choice == 6:
+            update_customer()
+        elif choice == 7:
+            main()
+        else:
+            print('Invalid choice: Try again')
+
+# Add customer details
+def add_customer():
+    try:
+        ans = 'yes'
+        while ans.lower() == 'yes':
+            print('Enter customer information....')
+            cid = int(input('Enter customer ID: '))
+            cname = input('Enter customer name: ')
+            book = input('Enter name of book purchased: ')
+            price = float(input('Enter price: '))
+            date = input('Enter date of purchase: ')
+            auth
