@@ -26,6 +26,3 @@ The Bookshop Management System is a Python-based project that uses MySQL as the 
   * mysql.connector: For connecting and executing queries with MySQL.
   * Standard libraries: input, print, etc.
 
-
-```bash
-ls -la
