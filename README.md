@@ -9,7 +9,7 @@ The Bookshop Management System is a Python-based project that uses MySQL as the 
 * Delete all book records or a specific one.
 * Update book details such as quantity and price.
 
-## 2)Customer Management:
+## 2) Customer Management:
 * Add new customer details.
 * Display all customer records.
 * Search and display a specific customer's details.
